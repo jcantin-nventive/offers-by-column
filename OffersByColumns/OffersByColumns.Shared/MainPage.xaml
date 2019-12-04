@@ -1,23 +1,60 @@
-﻿<Page
-    x:Class="OffersByColumns.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:OffersByColumns"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="OffersByColumns.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:OffersByColumns"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d">
 
 	<Page.DataContext>
 		<local:MyViewModel />
 	</Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<ListView ItemsSource="{Binding CategoriesWithOffers}">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ListView ItemsSource="{Binding}" />
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+	<Page.Resources>
+		<Style TargetType="local:OffersGroupedList"
+			   x:Key="DefaultOffersGroupedListStyle">
+			<Setter Property="ScrollViewer.HorizontalScrollMode"
+					Value="Enabled" />
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+					Value="Visible" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="local:OffersGroupedList">
+						<Border x:Name="LayoutRoot"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+							<ScrollViewer x:Name="ScrollViewer"
+										  Padding="{TemplateBinding Padding}"
+										  TabNavigation="{TemplateBinding TabNavigation}"
+										  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+										  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+										  VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+										  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+										  IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+										  IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+										  ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+										  IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+										  BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+										  AutomationProperties.AccessibilityView="Raw">
+								<ItemsPresenter />
+							</ScrollViewer>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<!--TODO make the list item clickable on the entire width-->
+		<local:OffersGroupedList ItemsSource="{Binding CategoriesWithOffers}"
+								 Style="{StaticResource DefaultOffersGroupedListStyle}">
+			<local:OffersGroupedList.ItemsPanel>
+				<ItemsPanelTemplate>
+					<local:GroupByColumnPanel />
+				</ItemsPanelTemplate>
+			</local:OffersGroupedList.ItemsPanel>
+		</local:OffersGroupedList>
 	</Grid>
 </Page>

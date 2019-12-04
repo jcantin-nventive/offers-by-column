@@ -7,6 +7,6 @@ namespace OffersByColumns
 {
 	public class MyViewModel
 	{
-		public IEnumerable<IEnumerable<string>> CategoriesWithOffers => Enumerable.Range(0, 5).Select(idx => Enumerable.Range(idx * 5, 5).Select(nb => $"Item #{nb}"));
+		public IEnumerable<string> CategoriesWithOffers => Enumerable.Range(0, 15).Select(nb => $"Very long item description #{nb}");
 	}
 }
