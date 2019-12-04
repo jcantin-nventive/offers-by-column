@@ -63,7 +63,11 @@ namespace OffersByColumns
 						new Point(
 							x: _itemWidth * columnNo,
 							y: rowHeight.Value * rowNo),
-						child.DesiredSize));
+						new Size
+						(
+							width: _itemWidth,
+							height: rowHeight.Value
+						)));
 
 				childNo++;
 			}

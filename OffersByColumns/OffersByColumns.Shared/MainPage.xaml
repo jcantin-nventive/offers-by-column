@@ -60,7 +60,25 @@
 					<local:GroupByColumnPanel />
 				</ItemsPanelTemplate>
 			</local:OffersGroupedList.ItemsPanel>
+			<local:OffersGroupedList.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="HorizontalAlignment"
+							Value="Stretch" />
+					<Setter Property="HorizontalContentAlignment"
+							Value="Stretch" />
+				</Style>
+			</local:OffersGroupedList.ItemContainerStyle>
 		</local:OffersGroupedList>
+		<!--<ListBox ItemsSource="{Binding CategoriesWithOffers}">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="HorizontalAlignment"
+							Value="Stretch" />
+					<Setter Property="HorizontalContentAlignment"
+							Value="Stretch" />
+				</Style>
+			</ListBox.ItemContainerStyle>
+		</ListBox>-->
 		<!--<ScrollViewer HorizontalScrollMode="Enabled"
 					  HorizontalScrollBarVisibility="Hidden"
 					  VerticalScrollMode="Disabled"
