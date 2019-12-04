@@ -11,11 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersByColumns.iOS", "Offe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersByColumns.UWP", "OffersByColumns\OffersByColumns.UWP\OffersByColumns.UWP.csproj", "{DA354911-2118-4A09-8887-8BC8FB0C2D11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersByColumns.Wasm", "OffersByColumns\OffersByColumns.Wasm\OffersByColumns.Wasm.csproj", "{E49D92B7-4CAD-4CD8-A7FB-29539D01F46E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OffersByColumns.Wasm", "OffersByColumns\OffersByColumns.Wasm\OffersByColumns.Wasm.csproj", "{E49D92B7-4CAD-4CD8-A7FB-29539D01F46E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		OffersByColumns\OffersByColumns.Shared\OffersByColumns.Shared.projitems*{1664a20f-90d0-47bf-bfc8-89f10a650239}*SharedItemsImports = 4
 		OffersByColumns\OffersByColumns.Shared\OffersByColumns.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		OffersByColumns\OffersByColumns.Shared\OffersByColumns.Shared.projitems*{da354911-2118-4a09-8887-8bc8fb0c2d11}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

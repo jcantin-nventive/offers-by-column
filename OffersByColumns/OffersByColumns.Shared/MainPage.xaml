@@ -7,7 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+	<Page.DataContext>
+		<local:MyViewModel />
+	</Page.DataContext>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="Hello, world !" Margin="20" FontSize="30" />
-    </Grid>
+		<ListView ItemsSource="{Binding CategoriesWithOffers}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ListView ItemsSource="{Binding}" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</Grid>
 </Page>
