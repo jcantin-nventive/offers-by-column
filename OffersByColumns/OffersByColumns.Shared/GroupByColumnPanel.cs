@@ -73,10 +73,10 @@ namespace OffersByColumns
 
 		private void GetItemWidthFromParent()
 		{
-			FrameworkElement feParent = this;
+			DependencyObject feParent = this;
 			while (feParent != null)
 			{
-				feParent = VisualTreeHelper.GetParent(feParent) as FrameworkElement;
+				feParent = VisualTreeHelper.GetParent(feParent) as DependencyObject;
 				if (feParent is OffersGroupedList list)
 				{
 					_itemWidth = list.ItemWidth;

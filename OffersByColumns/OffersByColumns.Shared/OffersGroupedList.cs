@@ -21,6 +21,7 @@ namespace OffersByColumns
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+			ItemWidth = Window.Current.Bounds.Width - PeekingWidth;
 		}
 		
 		public int PeekingWidth
