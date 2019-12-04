@@ -12,7 +12,7 @@ namespace OffersByColumns
 	/// <summary>
 	/// Displays offers in columns with a footer
 	/// </summary>
-	public class OffersGroupedList : SelectorControl
+	public partial class OffersGroupedList : SelectorControl
 	{
 		public OffersGroupedList()
 		{
@@ -21,21 +21,25 @@ namespace OffersByColumns
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
-			ItemWidth = Window.Current.Bounds.Width - PeekingWidth;
 		}
-
-		/// <summary>
-		/// Determines the default value of ItemWidth
-		/// </summary>
-		public int PeekingWidth { get; set; } = 100;
 		
-		public double ItemWidth
+		public int PeekingWidth
 		{
-			get { return (double)GetValue(ItemWidthProperty); }
-			set { SetValue(ItemWidthProperty, value); }
+			get { return (int)GetValue(PeekingWidthProperty); }
+			set { SetValue(PeekingWidthProperty, value); }
 		}
 		
-		public static readonly DependencyProperty ItemWidthProperty =
-			DependencyProperty.Register("ItemWidth", typeof(double), typeof(OffersGroupedList), new PropertyMetadata(0));
+		public static readonly DependencyProperty PeekingWidthProperty =
+			DependencyProperty.Register("PeekingWidth", typeof(int), typeof(OffersGroupedList), new PropertyMetadata(100, PeekingWidthChanged));
+
+		private static void PeekingWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			if (sender is OffersGroupedList list)
+			{
+				list.ItemWidth = Window.Current.Bounds.Width - list.PeekingWidth;
+			}
+		}
+		
+		public double ItemWidth { get; private set; }
 	}
 }

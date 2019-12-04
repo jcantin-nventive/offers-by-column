@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Media;
 
 namespace OffersByColumns
 {
-	public class GroupByColumnPanel : Panel
+	public partial class GroupByColumnPanel : Panel
 	{
 		public GroupByColumnPanel()
 		{
@@ -19,6 +19,8 @@ namespace OffersByColumns
 		
 		private double _itemWidth = 100;
 
+		public IEnumerable<UIElement> UiElementChildren => Children.Cast<UIElement>();
+
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			GetItemWidthFromParent();
@@ -26,7 +28,7 @@ namespace OffersByColumns
 			var maxHeightByRow = new Dictionary<int, double>();
 			int childNo = 0;
 			int nbColumns = 0;
-			foreach(var child in Children)
+			foreach(var child in UiElementChildren)
 			{
 				child.Measure(new Size(width: _itemWidth, height: double.MaxValue));
 				maxHeightByRow[childNo % NbRows] = child.DesiredSize.Height;
@@ -50,16 +52,16 @@ namespace OffersByColumns
 			// TODO do we need to handle padding/margin?
 			int childNo = 0;
 			// Assuming each row has the same height. Is this safe? If not, how to proceed? Layout only the first row, then only the second, etc.?
-			var rowHeight = Children.FirstOrDefault()?.DesiredSize.Height;
+			var rowHeight = UiElementChildren.FirstOrDefault()?.DesiredSize.Height;
 
-			foreach (var child in Children)
+			foreach (var child in UiElementChildren)
 			{
 				var columnNo = childNo / NbRows;
 				var rowNo = childNo % NbRows;
 				child.Arrange(
 					new Rect(
 						new Point(
-							x: _itemWidth * columnNo, 
+							x: _itemWidth * columnNo,
 							y: rowHeight.Value * rowNo),
 						child.DesiredSize));
 
