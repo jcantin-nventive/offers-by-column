@@ -21,7 +21,7 @@ namespace OffersByColumns
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
-			ItemWidth = Window.Current.Bounds.Width - PeekingWidth;
+			ItemWidth = Windows.UI.Xaml.Window.Current.Bounds.Width - PeekingWidth;
 		}
 		
 		public int PeekingWidth
@@ -37,7 +37,7 @@ namespace OffersByColumns
 		{
 			if (sender is OffersGroupedList list)
 			{
-				list.ItemWidth = Window.Current.Bounds.Width - list.PeekingWidth;
+				list.ItemWidth = Windows.UI.Xaml.Window.Current.Bounds.Width - list.PeekingWidth;
 			}
 		}
 		
