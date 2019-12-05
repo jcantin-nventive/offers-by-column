@@ -102,7 +102,7 @@ namespace OffersByColumns
 		{
 			int itemNo = 0;
 			var children = new List<UIElement>();
-			foreach(var item in ItemsSource)
+			foreach(var item in ItemsSource ?? new UIElement[0])
 			{
 				// If it's the first item in the column, add the top border
 				if (itemNo % _itemsPanel.NbRows == 0)
