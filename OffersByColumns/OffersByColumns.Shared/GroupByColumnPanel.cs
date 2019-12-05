@@ -17,75 +17,115 @@ namespace OffersByColumns
 
 		public int NbRows { get; set; } = 3;
 		
-		private double _itemWidth = 100;
+		public double ItemWidth
+		{
+			get { return (double)GetValue(ItemWidthProperty); }
+			set { SetValue(ItemWidthProperty, value); }
+		}
+		
+		public static readonly DependencyProperty ItemWidthProperty =
+			DependencyProperty.Register("ItemWidth", typeof(double), typeof(GroupByColumnPanel), new PropertyMetadata(100));
+
+		public Style ItemContainerStyle
+		{
+			get { return (Style)GetValue(ItemContainerStyleProperty); }
+			set { SetValue(ItemContainerStyleProperty, value); }
+		}
+
+		public static readonly DependencyProperty ItemContainerStyleProperty =
+			DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(GroupByColumnPanel), new PropertyMetadata(null));
 
 		public IEnumerable<UIElement> UiElementChildren => Children.Cast<UIElement>();
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			GetItemWidthFromParent();
-
 			var maxHeightByRow = new Dictionary<int, double>();
 			int childNo = 0;
 			int nbColumns = 0;
+			int rowNo = 0;
 			foreach(var child in UiElementChildren)
 			{
-				child.Measure(new Size(width: _itemWidth, height: double.MaxValue));
-				maxHeightByRow[childNo % NbRows] = child.DesiredSize.Height;
+				var isSeperator = child is Border;
 
-				if (childNo % NbRows == 0)
+				if (isSeperator)
 				{
-					nbColumns++;
+					child.Measure(new Size(width: ItemWidth, height: 1));
 				}
+				else
+				{
+					child.Measure(new Size(width: ItemWidth, height: double.MaxValue));
+					maxHeightByRow[rowNo] = child.DesiredSize.Height;
 
-				childNo++;
+					if (rowNo == 0)
+					{
+						nbColumns++;
+					}
+
+					childNo++;
+					rowNo = childNo % NbRows;
+				}
 			}
 
 			return new Size(
-				width: _itemWidth * nbColumns,
-				height: maxHeightByRow.Values.Select(height => height).Sum()
+				width: ItemWidth * nbColumns,
+				height: maxHeightByRow.Values.Select(height => height).Sum() + NbRows + 1
 			);
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
-			// TODO do we need to handle padding/margin?
 			int childNo = 0;
-			// Assuming each row has the same height. Is this safe? If not, how to proceed? Layout only the first row, then only the second, etc.?
-			var rowHeight = UiElementChildren.FirstOrDefault()?.DesiredSize.Height;
+			int nbSeperators = 0;
+			// Assuming each row has the same height
+			var rowHeight = finalSize.Height / NbRows;
 
 			foreach (var child in UiElementChildren)
 			{
 				var columnNo = childNo / NbRows;
 				var rowNo = childNo % NbRows;
-				child.Arrange(
-					new Rect(
-						new Point(
-							x: _itemWidth * columnNo,
-							y: rowHeight.Value * rowNo),
-						new Size
-						(
-							width: _itemWidth,
-							height: rowHeight.Value
-						)));
 
-				childNo++;
+				if (rowNo == 0)
+				{
+					nbSeperators = 0;
+				}
+
+				var isSeperator = child is Border;
+
+				if (isSeperator)
+				{
+					child.Arrange(
+						new Rect(
+							new Point(
+								x: ItemWidth * columnNo,
+								y: rowHeight * rowNo + nbSeperators
+							),
+							new Size(
+								width: ItemWidth,
+								height: 1
+							)
+						)
+					);
+					nbSeperators++;
+				}
+				else
+				{
+					child.Arrange(
+						new Rect(
+							new Point(
+								x: ItemWidth * columnNo,
+								y: rowHeight * rowNo + nbSeperators
+							),
+							new Size
+							(
+								width: ItemWidth,
+								height: rowHeight
+							)));
+
+					childNo++;
+				}
 			}
 
 			return finalSize;
-		}
-
-		private void GetItemWidthFromParent()
-		{
-			DependencyObject feParent = this;
-			while (feParent != null)
-			{
-				feParent = VisualTreeHelper.GetParent(feParent) as DependencyObject;
-				if (feParent is OffersGroupedList list)
-				{
-					_itemWidth = list.ItemWidth;
-				}
-			}
 		}
 	}
 }

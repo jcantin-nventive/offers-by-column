@@ -14,11 +14,13 @@
 	</Page.DataContext>
 
 	<Page.Resources>
-		<Style TargetType="local:OffersGroupedList"
-			   x:Key="DefaultOffersGroupedListStyle">
+		<local:DebugConverter x:Key="DebugConverter" />
+
+		<Style TargetType="local:GroupByColumnList"
+			   x:Key="DefaultGroupByColumnListStyle">
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="local:OffersGroupedList">
+					<ControlTemplate TargetType="local:GroupByColumnList">
 						<Border x:Name="LayoutRoot"
 								Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
@@ -32,7 +34,9 @@
 										  VerticalScrollBarVisibility="Disabled"
 										  IsHitTestVisible="True"
 										  AutomationProperties.AccessibilityView="Raw">
-								<ItemsPresenter />
+								<local:GroupByColumnPanel x:Name="PART_ItemsPanel"
+														  ItemWidth="{TemplateBinding ItemWidth}"
+														  ItemContainerStyle="{TemplateBinding ItemContainerStyle}" />
 							</ScrollViewer>
 						</Border>
 					</ControlTemplate>
@@ -43,53 +47,17 @@
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 		  toolkit:VisibleBoundsPadding.PaddingMask="All">
-		<!--TODO make the list item clickable on the entire width-->
-		<local:OffersGroupedList ItemsSource="{Binding CategoriesWithOffers}"
-								 Style="{StaticResource DefaultOffersGroupedListStyle}">
-			<local:OffersGroupedList.ItemsPanel>
-				<ItemsPanelTemplate>
-					<local:GroupByColumnPanel />
-				</ItemsPanelTemplate>
-			</local:OffersGroupedList.ItemsPanel>
-			<local:OffersGroupedList.ItemContainerStyle>
-				<win:Style TargetType="ListBoxItem">
+		<local:GroupByColumnList ItemsSource="{Binding CategoriesWithOffers}"
+								 Style="{StaticResource DefaultGroupByColumnListStyle}"
+								 Height="400">
+			<local:GroupByColumnList.ItemContainerStyle>
+				<Style TargetType="Button">
 					<Setter Property="HorizontalAlignment"
 							Value="Stretch" />
-					<Setter Property="HorizontalContentAlignment"
-							Value="Stretch" />
-				</win:Style>
-				<ios:Style TargetType="ContentPresenter">
-					<Setter Property="HorizontalAlignment"
-							Value="Stretch" />
-					<Setter Property="HorizontalContentAlignment"
-							Value="Stretch" />
-				</ios:Style>
-				<android:Style TargetType="ContentPresenter">
-					<Setter Property="HorizontalAlignment"
-							Value="Stretch" />
-					<Setter Property="HorizontalContentAlignment"
-							Value="Stretch" />
-				</android:Style>
-			</local:OffersGroupedList.ItemContainerStyle>
-		</local:OffersGroupedList>
-		<!--<ListBox ItemsSource="{Binding CategoriesWithOffers}">
-			<ListBox.ItemContainerStyle>
-				<Style TargetType="ListBoxItem">
-					<Setter Property="HorizontalAlignment"
-							Value="Stretch" />
-					<Setter Property="HorizontalContentAlignment"
+					<Setter Property="VerticalAlignment"
 							Value="Stretch" />
 				</Style>
-			</ListBox.ItemContainerStyle>
-		</ListBox>-->
-		<!--<ScrollViewer HorizontalScrollMode="Enabled"
-					  HorizontalScrollBarVisibility="Hidden"
-					  VerticalScrollMode="Disabled"
-					  IsHitTestVisible="True">
-			<Rectangle Fill="Red"
-					   Height="300"
-					   Width="1000"
-					   Margin="50,0,0,0"/>
-		</ScrollViewer>-->
+			</local:GroupByColumnList.ItemContainerStyle>
+		</local:GroupByColumnList>
 	</Grid>
 </Page>
