@@ -79,6 +79,15 @@ namespace OffersByColumns
 		
 		public static readonly DependencyProperty SeparatorBrushProperty =
 			DependencyProperty.Register("SeparatorBrush", typeof(Brush), typeof(GroupByColumnList), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+		
+		public double ColumnSpacing
+		{
+			get { return (double)GetValue(ColumnSpacingProperty); }
+			set { SetValue(ColumnSpacingProperty, value); }
+		}
+		
+		public static readonly DependencyProperty ColumnSpacingProperty =
+			DependencyProperty.Register("ColumnSpacing", typeof(double), typeof(GroupByColumnList), new PropertyMetadata(0));
 
 		private static void ItemsSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{

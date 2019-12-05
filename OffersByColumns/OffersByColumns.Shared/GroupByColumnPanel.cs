@@ -35,6 +35,15 @@ namespace OffersByColumns
 		public static readonly DependencyProperty ItemContainerStyleProperty =
 			DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(GroupByColumnPanel), new PropertyMetadata(null));
 
+		public double ColumnSpacing
+		{
+			get { return (double)GetValue(ColumnSpacingProperty); }
+			set { SetValue(ColumnSpacingProperty, value); }
+		}
+
+		public static readonly DependencyProperty ColumnSpacingProperty =
+			DependencyProperty.Register("ColumnSpacing", typeof(double), typeof(GroupByColumnPanel), new PropertyMetadata(0));
+
 		public IEnumerable<UIElement> UiElementChildren => Children.Cast<UIElement>();
 
 		protected override Size MeasureOverride(Size availableSize)
@@ -67,7 +76,7 @@ namespace OffersByColumns
 			}
 
 			return new Size(
-				width: ItemWidth * nbColumns,
+				width: GetTotalWidthWithColumns(nbColumns),
 				height: maxHeightByRow.Values.Select(height => height).Sum() + NbRows + 1
 			);
 		}
@@ -96,7 +105,7 @@ namespace OffersByColumns
 					child.Arrange(
 						new Rect(
 							new Point(
-								x: ItemWidth * columnNo,
+								x: GetPrecedingWidthWithColumns(columnNo),
 								y: rowHeight * rowNo + nbSeperators
 							),
 							new Size(
@@ -112,7 +121,7 @@ namespace OffersByColumns
 					child.Arrange(
 						new Rect(
 							new Point(
-								x: ItemWidth * columnNo,
+								x: GetPrecedingWidthWithColumns(columnNo),
 								y: rowHeight * rowNo + nbSeperators
 							),
 							new Size
@@ -126,6 +135,25 @@ namespace OffersByColumns
 			}
 
 			return finalSize;
+		}
+
+		/// <summary>
+		/// Gets the total width filled, for a given number of columns
+		/// </summary>
+		private double GetTotalWidthWithColumns(int nbColumns)
+		{
+			// The last column has no spacing after it so we substract 1
+			var nbColumnsForSpacing = Math.Max(0, nbColumns - 1);
+
+			return ItemWidth * nbColumns + (ColumnSpacing * nbColumnsForSpacing);
+		}
+
+		/// <summary>
+		/// Gets the width to the left, for a given number of columns.
+		/// </summary>
+		private double GetPrecedingWidthWithColumns(int nbColumns)
+		{
+			return ItemWidth * nbColumns + (ColumnSpacing * nbColumns);
 		}
 	}
 }

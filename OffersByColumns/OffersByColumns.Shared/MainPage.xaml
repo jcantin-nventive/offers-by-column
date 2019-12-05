@@ -36,7 +36,8 @@
 										  AutomationProperties.AccessibilityView="Raw">
 								<local:GroupByColumnPanel x:Name="PART_ItemsPanel"
 														  ItemWidth="{TemplateBinding ItemWidth}"
-														  ItemContainerStyle="{TemplateBinding ItemContainerStyle}" />
+														  ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+														  ColumnSpacing="{TemplateBinding ColumnSpacing}"/>
 							</ScrollViewer>
 						</Border>
 					</ControlTemplate>
@@ -49,6 +50,7 @@
 		  toolkit:VisibleBoundsPadding.PaddingMask="All">
 		<local:GroupByColumnList ItemsSource="{Binding CategoriesWithOffers}"
 								 Style="{StaticResource DefaultGroupByColumnListStyle}"
+								 ColumnSpacing="20"
 								 Height="400">
 			<local:GroupByColumnList.ItemContainerStyle>
 				<Style TargetType="Button">
