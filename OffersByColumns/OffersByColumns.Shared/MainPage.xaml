@@ -18,6 +18,8 @@
 
 		<Style TargetType="local:GroupByColumnList"
 			   x:Key="DefaultGroupByColumnListStyle">
+			<Setter Property="ScrollViewer.HorizontalScrollMode"
+					Value="Enabled" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:GroupByColumnList">
@@ -28,7 +30,7 @@
 							<ScrollViewer x:Name="ScrollViewer"
 										  Padding="{TemplateBinding Padding}"
 										  TabNavigation="{TemplateBinding TabNavigation}"
-										  HorizontalScrollMode="Enabled"
+										  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
 										  HorizontalScrollBarVisibility="Visible"
 										  VerticalScrollMode="Disabled"
 										  VerticalScrollBarVisibility="Disabled"
