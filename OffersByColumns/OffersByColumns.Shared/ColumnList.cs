@@ -104,7 +104,16 @@ namespace OffersByColumns
 
 		public static readonly DependencyProperty SeparatorBrushProperty =
 			DependencyProperty.Register("SeparatorBrush", typeof(Brush), typeof(ColumnList), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
-
+		
+		public DataTemplate FooterTemplate
+		{
+			get { return (DataTemplate)GetValue(FooterTemplateProperty); }
+			set { SetValue(FooterTemplateProperty, value); }
+		}
+		
+		public static readonly DependencyProperty FooterTemplateProperty =
+			DependencyProperty.Register("FooterTemplate", typeof(DataTemplate), typeof(ColumnList), new PropertyMetadata(null));
+		
 		public double ColumnSpacing
 		{
 			get { return (double)GetValue(ColumnSpacingProperty); }

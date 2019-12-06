@@ -88,11 +88,12 @@ namespace OffersByColumns
 		{
 			int childNo = 0;
 			int nbSeperators = 0;
+			var childrenPerColumn = NbRows * 2 + 1;
 
 			foreach (var child in UiElementChildren)
 			{
-				var columnNo = childNo / NbRows;
-				var rowNo = childNo % NbRows;
+				var columnNo = childNo / childrenPerColumn;
+				var rowNo = childNo % childrenPerColumn / 2;
 
 				if (rowNo == 0)
 				{
@@ -129,9 +130,9 @@ namespace OffersByColumns
 								width: ItemWidth,
 								height: ItemHeight
 							)));
-
-					childNo++;
 				}
+
+				childNo++;
 			}
 
 			return finalSize;
