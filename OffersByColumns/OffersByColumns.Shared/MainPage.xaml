@@ -16,11 +16,11 @@
 	<Page.Resources>
 		<local:DebugConverter x:Key="DebugConverter" />
 
-		<Style TargetType="local:GroupByColumnList"
+		<Style TargetType="local:ColumnList"
 			   x:Key="DefaultGroupByColumnListStyle">
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="local:GroupByColumnList">
+					<ControlTemplate TargetType="local:ColumnList">
 						<Border x:Name="LayoutRoot"
 								Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
@@ -34,10 +34,11 @@
 										  VerticalScrollBarVisibility="Disabled"
 										  IsHitTestVisible="True"
 										  AutomationProperties.AccessibilityView="Raw">
-								<local:GroupByColumnPanel x:Name="PART_ItemsPanel"
-														  ItemWidth="{TemplateBinding ItemWidth}"
-														  ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
-														  ColumnSpacing="{TemplateBinding ColumnSpacing}"/>
+								<local:ColumnPanel x:Name="PART_ItemsPanel"
+												   ItemWidth="{TemplateBinding ItemWidth}"
+												   ItemHeight="{TemplateBinding ItemHeight}"
+												   ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+												   ColumnSpacing="{TemplateBinding ColumnSpacing}" />
 							</ScrollViewer>
 						</Border>
 					</ControlTemplate>
@@ -46,20 +47,21 @@
 		</Style>
 	</Page.Resources>
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-		  toolkit:VisibleBoundsPadding.PaddingMask="All">
-		<local:GroupByColumnList ItemsSource="{Binding CategoriesWithOffers}"
-								 Style="{StaticResource DefaultGroupByColumnListStyle}"
-								 ColumnSpacing="20"
-								 Height="400">
-			<local:GroupByColumnList.ItemContainerStyle>
+	<StackPanel Background="Pink"
+				toolkit:VisibleBoundsPadding.PaddingMask="All">
+		<local:ColumnList ItemsSource="{Binding CategoriesWithOffers}"
+						  Style="{StaticResource DefaultGroupByColumnListStyle}"
+						  ItemHeight="78"
+						  ColumnSpacing="20"
+						  Background="White">
+			<local:ColumnList.ItemContainerStyle>
 				<Style TargetType="Button">
 					<Setter Property="HorizontalAlignment"
 							Value="Stretch" />
 					<Setter Property="VerticalAlignment"
 							Value="Stretch" />
 				</Style>
-			</local:GroupByColumnList.ItemContainerStyle>
-		</local:GroupByColumnList>
-	</Grid>
+			</local:ColumnList.ItemContainerStyle>
+		</local:ColumnList>
+	</StackPanel>
 </Page>

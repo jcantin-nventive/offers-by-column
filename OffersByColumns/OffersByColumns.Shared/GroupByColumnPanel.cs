@@ -9,22 +9,27 @@ using Windows.UI.Xaml.Media;
 
 namespace OffersByColumns
 {
-	public partial class GroupByColumnPanel : Panel
+	public partial class ColumnPanel : Panel
 	{
-		public GroupByColumnPanel()
-		{
-		}
-
 		public int NbRows { get; set; } = 3;
-		
+
 		public double ItemWidth
 		{
 			get { return (double)GetValue(ItemWidthProperty); }
 			set { SetValue(ItemWidthProperty, value); }
 		}
-		
+
 		public static readonly DependencyProperty ItemWidthProperty =
-			DependencyProperty.Register("ItemWidth", typeof(double), typeof(GroupByColumnPanel), new PropertyMetadata(100));
+			DependencyProperty.Register("ItemWidth", typeof(double), typeof(ColumnPanel), new PropertyMetadata((double)100));
+
+		public double ItemHeight
+		{
+			get { return (double)GetValue(ItemHeightProperty); }
+			set { SetValue(ItemHeightProperty, value); }
+		}
+
+		public static readonly DependencyProperty ItemHeightProperty =
+			DependencyProperty.Register("ItemHeight", typeof(double), typeof(ColumnPanel), new PropertyMetadata((double)100));
 
 		public Style ItemContainerStyle
 		{
@@ -33,7 +38,7 @@ namespace OffersByColumns
 		}
 
 		public static readonly DependencyProperty ItemContainerStyleProperty =
-			DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(GroupByColumnPanel), new PropertyMetadata(null));
+			DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(ColumnPanel), new PropertyMetadata(null));
 
 		public double ColumnSpacing
 		{
@@ -42,17 +47,16 @@ namespace OffersByColumns
 		}
 
 		public static readonly DependencyProperty ColumnSpacingProperty =
-			DependencyProperty.Register("ColumnSpacing", typeof(double), typeof(GroupByColumnPanel), new PropertyMetadata(0));
+			DependencyProperty.Register("ColumnSpacing", typeof(double), typeof(ColumnPanel), new PropertyMetadata(0));
 
 		public IEnumerable<UIElement> UiElementChildren => Children.Cast<UIElement>();
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			var maxHeightByRow = new Dictionary<int, double>();
 			int childNo = 0;
 			int nbColumns = 0;
 			int rowNo = 0;
-			foreach(var child in UiElementChildren)
+			foreach (var child in UiElementChildren)
 			{
 				var isSeperator = child is Border;
 
@@ -62,8 +66,7 @@ namespace OffersByColumns
 				}
 				else
 				{
-					child.Measure(new Size(width: ItemWidth, height: double.MaxValue));
-					maxHeightByRow[rowNo] = child.DesiredSize.Height;
+					child.Measure(new Size(width: ItemWidth, height: ItemHeight));
 
 					if (rowNo == 0)
 					{
@@ -77,7 +80,7 @@ namespace OffersByColumns
 
 			return new Size(
 				width: GetTotalWidthWithColumns(nbColumns),
-				height: maxHeightByRow.Values.Select(height => height).Sum() + NbRows + 1
+				height: (ItemHeight * NbRows) + NbRows + 1
 			);
 		}
 
@@ -85,8 +88,6 @@ namespace OffersByColumns
 		{
 			int childNo = 0;
 			int nbSeperators = 0;
-			// Assuming each row has the same height
-			var rowHeight = finalSize.Height / NbRows;
 
 			foreach (var child in UiElementChildren)
 			{
@@ -106,7 +107,7 @@ namespace OffersByColumns
 						new Rect(
 							new Point(
 								x: GetPrecedingWidthWithColumns(columnNo),
-								y: rowHeight * rowNo + nbSeperators
+								y: (ItemHeight * rowNo) + nbSeperators
 							),
 							new Size(
 								width: ItemWidth,
@@ -122,12 +123,11 @@ namespace OffersByColumns
 						new Rect(
 							new Point(
 								x: GetPrecedingWidthWithColumns(columnNo),
-								y: rowHeight * rowNo + nbSeperators
+								y: (ItemHeight * rowNo) + nbSeperators
 							),
-							new Size
-							(
+							new Size(
 								width: ItemWidth,
-								height: rowHeight
+								height: ItemHeight
 							)));
 
 					childNo++;
@@ -145,7 +145,7 @@ namespace OffersByColumns
 			// The last column has no spacing after it so we substract 1
 			var nbColumnsForSpacing = Math.Max(0, nbColumns - 1);
 
-			return ItemWidth * nbColumns + (ColumnSpacing * nbColumnsForSpacing);
+			return (ItemWidth * nbColumns) + (ColumnSpacing * nbColumnsForSpacing);
 		}
 
 		/// <summary>
@@ -153,7 +153,7 @@ namespace OffersByColumns
 		/// </summary>
 		private double GetPrecedingWidthWithColumns(int nbColumns)
 		{
-			return ItemWidth * nbColumns + (ColumnSpacing * nbColumns);
+			return (ItemWidth * nbColumns) + (ColumnSpacing * nbColumns);
 		}
 	}
 }
