@@ -81,6 +81,12 @@
 							Value="Stretch" />
 				</Style>
 			</local:ColumnList.ItemContainerStyle>
+			<local:ColumnList.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding}"
+							   Foreground="Aqua" />
+				</DataTemplate>
+			</local:ColumnList.ItemTemplate>
 		</local:ColumnList>
 	</StackPanel>
 </Page>

@@ -95,7 +95,16 @@ namespace OffersByColumns
 
 		public static readonly DependencyProperty ItemContainerStyleProperty =
 			DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(ColumnList), new PropertyMetadata(null));
-
+		
+		public DataTemplate ItemTemplate
+		{
+			get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+			set { SetValue(ItemTemplateProperty, value); }
+		}
+		
+		public static readonly DependencyProperty ItemTemplateProperty =
+			DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(ColumnList), new PropertyMetadata(null));
+		
 		public Brush SeparatorBrush
 		{
 			get { return (Brush)GetValue(SeparatorBrushProperty); }
@@ -147,7 +156,8 @@ namespace OffersByColumns
 				children.Add(new Button
 				{
 					Style = ItemContainerStyle,
-					Content = item
+					Content = item,
+					ContentTemplate = ItemTemplate
 				});
 
 				// Add separator after the item
